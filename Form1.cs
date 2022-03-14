@@ -138,10 +138,11 @@ namespace AppTestCshap
         }
         static void ReceiveThreadFunc()
         {
-            ReadMsgsViaReadMessage();
-            //
-            // alternative: use ReadMultipleMsgsViaReadMessages();
-            //
+            if (_instance.multi_Read.Checked == false) 
+                { ReadMsgsViaReadMessage(); }
+                else
+                ReadMultipleMsgsViaReadMessages();
+          
         }
         static void ReadMsgsViaReadMessage()
         {
