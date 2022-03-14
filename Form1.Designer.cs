@@ -33,15 +33,20 @@
             this.msg_port = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btn_conn = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.btn_Send = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.btn_reci = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // msg_List
             // 
             this.msg_List.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.msg_List.Location = new System.Drawing.Point(12, 162);
+            this.msg_List.Location = new System.Drawing.Point(12, 220);
             this.msg_List.Name = "msg_List";
-            this.msg_List.Size = new System.Drawing.Size(340, 76);
+            this.msg_List.Size = new System.Drawing.Size(340, 53);
             this.msg_List.TabIndex = 0;
             this.msg_List.Text = "";
             // 
@@ -89,11 +94,65 @@
             this.btn_conn.UseVisualStyleBackColor = true;
             this.btn_conn.Click += new System.EventHandler(this.btn_conn_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 104);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(60, 15);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Send Data";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(12, 134);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(259, 23);
+            this.textBox1.TabIndex = 6;
+            // 
+            // btn_Send
+            // 
+            this.btn_Send.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Send.AutoSize = true;
+            this.btn_Send.Location = new System.Drawing.Point(277, 132);
+            this.btn_Send.Name = "btn_Send";
+            this.btn_Send.Size = new System.Drawing.Size(75, 25);
+            this.btn_Send.TabIndex = 7;
+            this.btn_Send.Text = "Send";
+            this.btn_Send.UseVisualStyleBackColor = true;
+            this.btn_Send.Click += new System.EventHandler(this.btn_Send_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 192);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(50, 15);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Console";
+            // 
+            // btn_reci
+            // 
+            this.btn_reci.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_reci.AutoSize = true;
+            this.btn_reci.Location = new System.Drawing.Point(277, 187);
+            this.btn_reci.Name = "btn_reci";
+            this.btn_reci.Size = new System.Drawing.Size(75, 25);
+            this.btn_reci.TabIndex = 9;
+            this.btn_reci.Text = "Recived";
+            this.btn_reci.UseVisualStyleBackColor = true;
+            this.btn_reci.Click += new System.EventHandler(this.btn_reci_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(364, 285);
+            this.Controls.Add(this.btn_reci);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.btn_Send);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.btn_conn);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.msg_port);
@@ -115,5 +174,10 @@
         private ComboBox msg_port;
         private Label label1;
         private Button btn_conn;
+        private Label label2;
+        private TextBox textBox1;
+        private Button btn_Send;
+        private Label label3;
+        private Button btn_reci;
     }
 }

@@ -26,6 +26,9 @@ namespace AppTestCshap
             _instance = this;
             InitializeComponent();
             btn_conn.Enabled = false;
+            btn_reci.Enabled = false;
+            btn_Send.Enabled = false;
+
         }
 
 
@@ -54,8 +57,9 @@ namespace AppTestCshap
                 string serialNumberText = GetSerialNumberText(ref serialNumberGuid);
                 _instance.msg_port.Text += (" Interface    : " + mDevice.Description + "\n");
                 _instance.msg_port.Text += (" Serial number: " + serialNumberText + "\n");
-                _instance.msg_port.Text += true;
-
+                _instance.btn_conn.Enabled = true;
+                _instance.btn_reci.Enabled = true;
+                _instance.btn_Send.Enabled = true;
             }
             catch (Exception exc)
             {
@@ -156,6 +160,25 @@ namespace AppTestCshap
                 }
             } while (0 == mMustQuit);
         }
+        static void ReadMultipleMsgsViaReadMessages()
+        {
+            ICanMessage2[] msgArray;
+
+            do
+            {
+                // Wait 100 msec for a message reception
+                if (mRxEvent.WaitOne(100, false))
+                {
+                    if (mReader.ReadMessages(out msgArray) > 0)
+                    {
+                        foreach (ICanMessage2 entry in msgArray)
+                        {
+                            PrintMessage(entry);
+                        }
+                    }
+                }
+            } while (0 == mMustQuit);
+        }
         static void PrintMessage(ICanMessage2 canMessage)
         {
             switch (canMessage.FrameType)
@@ -239,6 +262,26 @@ namespace AppTestCshap
                         break;
                     }
             }
+        }
+        static void TransmitData()
+        {
+            IMessageFactory factory = VciServer.Instance().MsgFactory;
+            ICanMessage2 canMsg = (ICanMessage2)factory.CreateMsg(typeof(ICanMessage2));
+
+            canMsg.TimeStamp = 0;
+            canMsg.Identifier = 0x100;
+            canMsg.FrameType = CanMsgFrameType.Data;
+            canMsg.DataLength = 64;
+            canMsg.SelfReceptionRequest = true;  
+            canMsg.FastDataRate = true;
+            canMsg.ExtendedDataLength = true;
+
+            for (Byte i = 0; i < canMsg.DataLength; i++)
+            {
+                canMsg[i] = i;
+            }
+
+            mWriter.SendMessage(canMsg);
         }
 
         #endregion
@@ -324,6 +367,7 @@ namespace AppTestCshap
 
         #endregion
 
+        #region Button 
         private void btn_conn_Click(object sender, EventArgs e)
         {
 
@@ -334,11 +378,23 @@ namespace AppTestCshap
             else
             {
                 _instance.msg_List.Text += (" Initialize CAN FD............ OK !\n");
-
-
                 rxThread = new Thread(new ThreadStart(ReceiveThreadFunc));
                 rxThread.Start();
+                ICanCyclicTXMsg2 cyclicMsg = mCanSched.AddMessage();
+
+                cyclicMsg.Identifier = 200;
+                cyclicMsg.CycleTicks = 100;
+                cyclicMsg.DataLength = 32;
+                cyclicMsg.SelfReceptionRequest = true;
+                cyclicMsg.ExtendedDataLength = true;
+                cyclicMsg.FastDataRate = true;
+
+                for (Byte i = 0; i < cyclicMsg.DataLength; i++)
+                {
+                    cyclicMsg[i] = i;
+                }
             }
+
         }
         private void btn_Scan_Click(object sender, EventArgs e)
         {
@@ -346,5 +402,34 @@ namespace AppTestCshap
             SelectDevice();
 
         }
+        private void btn_Send_Click(object sender, EventArgs e)
+        {
+            TransmitData();
+        }
+        private void btn_reci_Click(object sender, EventArgs e)
+        {
+            ICanCyclicTXMsg2 cyclicMsg = mCanSched.AddMessage();
+
+            cyclicMsg.Identifier = 200;
+            cyclicMsg.CycleTicks = 100;
+            cyclicMsg.DataLength = 32;
+            cyclicMsg.SelfReceptionRequest = true;
+            cyclicMsg.ExtendedDataLength = true;
+            cyclicMsg.FastDataRate = true;
+
+            for (Byte i = 0; i < cyclicMsg.DataLength; i++)
+            {
+                cyclicMsg[i] = i;
+            }
+            if (cyclicMsg.Status != CanCyclicTXStatus.Busy)
+            {
+                cyclicMsg.Start(0);
+            }
+            else
+            {
+                cyclicMsg.Stop();
+            }
+        }
+        #endregion
     }
 }
