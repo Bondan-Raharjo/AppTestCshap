@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Ixxat.Vci4">
+      <HintPath>..\..\..\..\Public\Documents\HMS\Ixxat VCI 4.0\Samples\dotnet\packages\Ixxat.Vci4.StrongName.4.0.436\lib\net40\Ixxat.Vci4.dll</HintPath>
+    </Reference>
+    <Reference Include="Ixxat.Vci4.Contract">
+      <HintPath>..\..\..\..\Public\Documents\HMS\Ixxat VCI 4.0\Samples\dotnet\packages\Ixxat.Vci4.StrongName.4.0.436\lib\net40\Ixxat.Vci4.Contract.dll</HintPath>
+    </Reference>
+    <Reference Include="vcinet.x64">
+      <HintPath>..\..\..\..\Public\Documents\HMS\Ixxat VCI 4.0\Samples\dotnet\packages\Ixxat.Vci4.StrongName.4.0.436\build\net40\vcinet.x64.dll</HintPath>
+    </Reference>
+    <Reference Include="vcinet.x86">
+      <HintPath>..\..\..\..\Public\Documents\HMS\Ixxat VCI 4.0\Samples\dotnet\packages\Ixxat.Vci4.StrongName.4.0.436\build\net40\vcinet.x86.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
