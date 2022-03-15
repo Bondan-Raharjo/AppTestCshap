@@ -30,7 +30,6 @@
         {
             this.msg_List = new System.Windows.Forms.RichTextBox();
             this.btn_Scan = new System.Windows.Forms.Button();
-            this.msg_port = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btn_conn = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -42,6 +41,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.In_length = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.list_dev = new System.Windows.Forms.ListView();
             this.SuspendLayout();
             // 
             // msg_List
@@ -58,24 +58,13 @@
             // 
             this.btn_Scan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Scan.AutoSize = true;
-            this.btn_Scan.Location = new System.Drawing.Point(196, 68);
+            this.btn_Scan.Location = new System.Drawing.Point(278, 30);
             this.btn_Scan.Name = "btn_Scan";
             this.btn_Scan.Size = new System.Drawing.Size(75, 25);
             this.btn_Scan.TabIndex = 1;
             this.btn_Scan.Text = "Scan";
             this.btn_Scan.UseVisualStyleBackColor = true;
             this.btn_Scan.Click += new System.EventHandler(this.btn_Scan_Click);
-            // 
-            // msg_port
-            // 
-            this.msg_port.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.msg_port.FormattingEnabled = true;
-            this.msg_port.Location = new System.Drawing.Point(12, 30);
-            this.msg_port.Name = "msg_port";
-            this.msg_port.Size = new System.Drawing.Size(340, 23);
-            this.msg_port.TabIndex = 2;
             // 
             // label1
             // 
@@ -192,12 +181,22 @@
             this.label5.TabIndex = 14;
             this.label5.Text = "ID ";
             // 
+            // list_dev
+            // 
+            this.list_dev.Location = new System.Drawing.Point(12, 30);
+            this.list_dev.Name = "list_dev";
+            this.list_dev.Size = new System.Drawing.Size(260, 54);
+            this.list_dev.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.list_dev.TabIndex = 15;
+            this.list_dev.UseCompatibleStateImageBehavior = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(364, 299);
+            this.Controls.Add(this.list_dev);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.In_length);
             this.Controls.Add(this.label4);
@@ -209,13 +208,13 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btn_conn);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.msg_port);
             this.Controls.Add(this.btn_Scan);
             this.Controls.Add(this.msg_List);
             this.MinimumSize = new System.Drawing.Size(380, 338);
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "Console App";
+            this.Deactivate += new System.EventHandler(this.Form1_Deactivate);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -225,7 +224,6 @@
 
         private RichTextBox msg_List;
         private Button btn_Scan;
-        private ComboBox msg_port;
         private Label label1;
         private Button btn_conn;
         private Label label2;
@@ -237,5 +235,6 @@
         private Label label4;
         private TextBox In_length;
         private Label label5;
+        private ListView list_dev;
     }
 }

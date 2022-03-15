@@ -55,13 +55,13 @@ namespace AppTestCshap
                 mDevice = deviceEnum.Current as IVciDevice;
                 IVciCtrlInfo info = mDevice.Equipment[0];
 
-                _instance.msg_port.Text += (" BusType    : {0}\n", info.BusType);
-                _instance.msg_port.Text += (" CtrlType   : {0}\n", info.ControllerType);
+                _instance.list_dev.Text += (" BusType    : {0}\n", info.BusType);
+                _instance.list_dev.Text += (" CtrlType   : {0}\n", info.ControllerType);
 
                 object serialNumberGuid = mDevice.UniqueHardwareId;
                 string serialNumberText = GetSerialNumberText(ref serialNumberGuid);
-                _instance.msg_port.Text += (" Interface    : " + mDevice.Description + "\n");
-                _instance.msg_port.Text += (" Serial number: " + serialNumberText + "\n");
+                _instance.list_dev.Text += (" Interface    : " + mDevice.Description + "\n");
+                _instance.list_dev.Text += (" Serial number: " + serialNumberText + "\n");
                 _instance.btn_conn.Enabled = true;
                 _instance.btn_reci.Enabled = true;
                 _instance.btn_Send.Enabled = true;
@@ -436,8 +436,12 @@ namespace AppTestCshap
                 cyclicMsg.Stop();
             }
         }
+
         #endregion
 
-       
+        private void Form1_Deactivate(object sender, EventArgs e)
+        {
+            FinalizeApp();
+        }
     }
 }
