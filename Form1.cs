@@ -3,13 +3,15 @@ using System.Threading;
 using Ixxat.Vci4;
 using Ixxat.Vci4.Bal;
 using Ixxat.Vci4.Bal.Can;
+using System.Net;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace AppTestCshap
 {
     public partial class Form1 : Form
     {
         #region Member variables
-
         static IVciDevice mDevice;
         static ICanControl2 mCanCtl;
         static ICanChannel2 mCanChn;
@@ -20,7 +22,10 @@ namespace AppTestCshap
         static long mMustQuit = 0;
         static AutoResetEvent mRxEvent;
         static Form1 _instance;
-        #endregion  
+        #endregion
+        #region Responsife GUI
+
+        #endregion
         public Form1()
         {
             _instance = this;
@@ -28,7 +33,7 @@ namespace AppTestCshap
             btn_conn.Enabled = false;
             btn_reci.Enabled = false;
             btn_Send.Enabled = false;
-
+              
         }
 
 
@@ -270,9 +275,9 @@ namespace AppTestCshap
             ICanMessage2 canMsg = (ICanMessage2)factory.CreateMsg(typeof(ICanMessage2));
 
             canMsg.TimeStamp = 0;
-            canMsg.Identifier = 0x100;
+            canMsg.Identifier = uint.Parse(_instance.In_ID.Text); ;
             canMsg.FrameType = CanMsgFrameType.Data;
-            canMsg.DataLength = 64;
+            canMsg.DataLength = byte.Parse(_instance.In_length.Text);
             canMsg.SelfReceptionRequest = true;  
             canMsg.FastDataRate = true;
             canMsg.ExtendedDataLength = true;
@@ -432,5 +437,7 @@ namespace AppTestCshap
             }
         }
         #endregion
+
+       
     }
 }

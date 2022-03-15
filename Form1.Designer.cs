@@ -34,11 +34,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btn_conn = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.In_ID = new System.Windows.Forms.TextBox();
             this.btn_Send = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.btn_reci = new System.Windows.Forms.Button();
             this.multi_Read = new System.Windows.Forms.RadioButton();
+            this.label4 = new System.Windows.Forms.Label();
+            this.In_length = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // msg_List
@@ -98,21 +101,22 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 104);
+            this.label2.Location = new System.Drawing.Point(12, 96);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(60, 15);
             this.label2.TabIndex = 5;
             this.label2.Text = "Send Data";
             // 
-            // textBox1
+            // In_ID
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.In_ID.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(12, 134);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(259, 23);
-            this.textBox1.TabIndex = 6;
+            this.In_ID.Location = new System.Drawing.Point(12, 134);
+            this.In_ID.Name = "In_ID";
+            this.In_ID.Size = new System.Drawing.Size(178, 23);
+            this.In_ID.TabIndex = 6;
+            this.In_ID.Text = "0x100";
             // 
             // btn_Send
             // 
@@ -138,8 +142,7 @@
             // 
             // btn_reci
             // 
-            this.btn_reci.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_reci.AutoSize = true;
+            this.btn_reci.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_reci.Location = new System.Drawing.Point(277, 184);
             this.btn_reci.Name = "btn_reci";
             this.btn_reci.Size = new System.Drawing.Size(75, 25);
@@ -150,8 +153,7 @@
             // 
             // multi_Read
             // 
-            this.multi_Read.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.multi_Read.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.multi_Read.AutoSize = true;
             this.multi_Read.Location = new System.Drawing.Point(173, 187);
             this.multi_Read.Name = "multi_Read";
@@ -161,16 +163,49 @@
             this.multi_Read.Text = "Multiple Read";
             this.multi_Read.UseVisualStyleBackColor = true;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(196, 116);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(71, 15);
+            this.label4.TabIndex = 12;
+            this.label4.Text = "Data Length";
+            // 
+            // In_length
+            // 
+            this.In_length.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.In_length.Location = new System.Drawing.Point(196, 134);
+            this.In_length.Name = "In_length";
+            this.In_length.Size = new System.Drawing.Size(60, 23);
+            this.In_length.TabIndex = 13;
+            this.In_length.Text = "8";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 116);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(21, 15);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "ID ";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(364, 299);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.In_length);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.multi_Read);
             this.Controls.Add(this.btn_reci);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btn_Send);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.In_ID);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btn_conn);
             this.Controls.Add(this.label1);
@@ -194,10 +229,13 @@
         private Label label1;
         private Button btn_conn;
         private Label label2;
-        private TextBox textBox1;
+        private TextBox In_ID;
         private Button btn_Send;
         private Label label3;
         private Button btn_reci;
         private RadioButton multi_Read;
+        private Label label4;
+        private TextBox In_length;
+        private Label label5;
     }
 }
