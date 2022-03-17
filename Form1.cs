@@ -438,10 +438,5 @@ namespace AppTestCshap
         }
 
         #endregion
-
-        private void Form1_Deactivate(object sender, EventArgs e)
-        {
-            FinalizeApp();
-        }
     }
 }
