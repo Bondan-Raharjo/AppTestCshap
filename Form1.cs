@@ -30,10 +30,11 @@ namespace AppTestCshap
         {
             _instance = this;
             InitializeComponent();
-            btn_conn.Enabled = false;
+            btn_conn.Enabled = false;   
             btn_reci.Enabled = false;
             btn_Send.Enabled = false;
-              
+            Bitrate.DataSource = CanBitrate2.CiaBitRates;
+
         }
 
 
@@ -104,6 +105,17 @@ namespace AppTestCshap
                 //
                 mCanCtl = bal.OpenSocket(canNo, typeof(ICanControl2)) as ICanControl2;
 
+
+                //select spesific bit rate
+                string select_bitrate = _instance.Bitrate.Text.ToString();
+                int index_bitrate = 0;
+                for (int i = 0; i < CanBitrate2.CiaBitRates.Length; i++)
+                {
+                    if (select_bitrate == CanBitrate2.CiaBitRates[i].ToString())
+                    {
+                        index_bitrate = i;
+                    }
+                }
                 // Initialize the CAN controller
                 // set the arbitration bitrate to 500kBit/s
                 //  (NonRaw) bitrate  500000, TSeg1: 6400, TSeg2: 1600, SJW:  1600, SSPoffset/TDO  not used
@@ -118,9 +130,9 @@ namespace AppTestCshap
                   2048,
                   CanFilterModes.Pass,
                   2048,
-                  CanBitrate2.CANFD500KBit,
+                  CanBitrate2.CiaBitRates[index_bitrate],
                   CanBitrate2.CANFD2000KBit);
-
+                
                 Console.WriteLine(" LineStatus: {0}", mCanCtl.LineStatus);
                 mCanCtl.StartLine();
 
@@ -438,5 +450,10 @@ namespace AppTestCshap
         }
 
         #endregion
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
