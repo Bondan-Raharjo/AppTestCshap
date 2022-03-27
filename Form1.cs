@@ -13,9 +13,9 @@ namespace AppTestCshap
     {
         #region Member variables
         static IVciDevice mDevice;
-        static ICanControl2 mCanCtl;
-        static ICanChannel2 mCanChn;
-        static ICanScheduler2 mCanSched;
+        static ICanControl mCanCtl;
+        static ICanChannel mCanChn;
+        static ICanScheduler mCanSched;
         static ICanMessageWriter mWriter;
         static ICanMessageReader mReader;
         static Thread rxThread;
@@ -43,8 +43,8 @@ namespace AppTestCshap
         static void SelectDevice()
         {
             IVciDeviceManager deviceManager = null;
-            IVciDeviceList deviceList = null;
-            IEnumerator deviceEnum = null;
+            IVciDeviceList    deviceList    = null;
+            IEnumerator       deviceEnum    = null;
 
             try
             {
@@ -82,15 +82,16 @@ namespace AppTestCshap
         {
             IBalObject bal = null;
             bool succeeded = false;
+            
 
             try
             {
                 bal = mDevice.OpenBusAccessLayer();
-                mCanChn = bal.OpenSocket(canNo, typeof(ICanChannel2)) as ICanChannel2;
-                mCanSched = bal.OpenSocket(canNo, typeof(ICanScheduler2)) as ICanScheduler2;
+                mCanChn = bal.OpenSocket(canNo, typeof(ICanChannel)) as ICanChannel;
+                mCanSched = bal.OpenSocket(canNo, typeof(ICanScheduler)) as ICanScheduler;
 
                 // Initialize the message channel
-                mCanChn.Initialize(1024, 128, 100, CanFilterModes.Pass, false);
+                mCanChn.Initialize(1024, 128, false);
                 mReader = mCanChn.GetMessageReader();
                 mReader.Threshold = 1;
                 mRxEvent = new AutoResetEvent(false);
@@ -103,7 +104,7 @@ namespace AppTestCshap
                 //
                 // Open the CAN controller
                 //
-                mCanCtl = bal.OpenSocket(canNo, typeof(ICanControl2)) as ICanControl2;
+                mCanCtl = bal.OpenSocket(canNo, typeof(ICanControl)) as ICanControl;
 
 
                 //select spesific bit rate
@@ -119,20 +120,19 @@ namespace AppTestCshap
                 // Initialize the CAN controller
                 // set the arbitration bitrate to 500kBit/s
                 //  (NonRaw) bitrate  500000, TSeg1: 6400, TSeg2: 1600, SJW:  1600, SSPoffset/TDO  not used
-                // set the fast bitrate to 2000kBit/s
-                //  (NonRaw) bitrate 2000000, TSeg1: 6400, TSeg2:  400, SJW:   400, SSPoffset/TDO  1600 ( == 80% )
+
                 mCanCtl.InitLine(CanOperatingModes.Standard |
-                  CanOperatingModes.Extended |
-                  CanOperatingModes.ErrFrame,
-                  CanExtendedOperatingModes.ExtendedDataLength |
-                  CanExtendedOperatingModes.FastDataRate,
-                  CanFilterModes.Pass,
-                  2048,
-                  CanFilterModes.Pass,
-                  2048,
-                  CanBitrate2.CiaBitRates[index_bitrate],
-                  CanBitrate2.CANFD2000KBit);
-                
+                CanOperatingModes.Extended |
+                CanOperatingModes.ErrFrame,
+                CanBitrate.CiaBitRates[index_bitrate]);
+               
+                // Set the acceptance filter for std identifiers
+                mCanCtl.SetAccFilter(CanFilter.Std,
+                            (uint)CanAccCode.All, (uint)CanAccMask.All);
+                // Set the acceptance filter for ext identifiers
+                mCanCtl.SetAccFilter(CanFilter.Ext,
+                                     (uint)CanAccCode.All, (uint)CanAccMask.All);
+
                 Console.WriteLine(" LineStatus: {0}", mCanCtl.LineStatus);
                 mCanCtl.StartLine();
 
@@ -287,7 +287,8 @@ namespace AppTestCshap
             ICanMessage2 canMsg = (ICanMessage2)factory.CreateMsg(typeof(ICanMessage2));
 
             canMsg.TimeStamp = 0;
-            canMsg.Identifier = uint.Parse(_instance.In_ID.Text); ;
+            uint dataID = Convert.ToUInt32(_instance.In_ID.Text);
+            canMsg.Identifier = dataID;
             canMsg.FrameType = CanMsgFrameType.Data;
             canMsg.DataLength = byte.Parse(_instance.In_length.Text);
             canMsg.SelfReceptionRequest = true;  
@@ -398,14 +399,12 @@ namespace AppTestCshap
                 _instance.msg_List.Text += (" Initialize CAN FD............ OK !\n");
                 rxThread = new Thread(new ThreadStart(ReceiveThreadFunc));
                 rxThread.Start();
-                ICanCyclicTXMsg2 cyclicMsg = mCanSched.AddMessage();
+                ICanCyclicTXMsg cyclicMsg = mCanSched.AddMessage();
 
                 cyclicMsg.Identifier = 200;
                 cyclicMsg.CycleTicks = 100;
-                cyclicMsg.DataLength = 32;
+                cyclicMsg.DataLength = 8;
                 cyclicMsg.SelfReceptionRequest = true;
-                cyclicMsg.ExtendedDataLength = true;
-                cyclicMsg.FastDataRate = true;
 
                 for (Byte i = 0; i < cyclicMsg.DataLength; i++)
                 {
@@ -426,14 +425,16 @@ namespace AppTestCshap
         }
         private void btn_reci_Click(object sender, EventArgs e)
         {
-            ICanCyclicTXMsg2 cyclicMsg = mCanSched.AddMessage();
+            rxThread = new Thread(new ThreadStart(ReceiveThreadFunc));
+            rxThread.Start();
+
+            ICanCyclicTXMsg cyclicMsg = mCanSched.AddMessage();
 
             cyclicMsg.Identifier = 200;
             cyclicMsg.CycleTicks = 100;
-            cyclicMsg.DataLength = 32;
+            cyclicMsg.DataLength = 8;
             cyclicMsg.SelfReceptionRequest = true;
-            cyclicMsg.ExtendedDataLength = true;
-            cyclicMsg.FastDataRate = true;
+          
 
             for (Byte i = 0; i < cyclicMsg.DataLength; i++)
             {
@@ -454,6 +455,10 @@ namespace AppTestCshap
         private void button1_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
         }
     }
 }
